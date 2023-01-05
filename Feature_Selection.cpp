@@ -64,6 +64,20 @@ list<Model*>* exhaustive_search(double** data, int* labels, int feature_no,
           delete m;
           break;
         }
+        // this may be a useful place to implement a lower limit for thresholds
+        // if threshold < 1, delete the model (very small thresholds aren't useful as biomarkers)
+        // ## DAVID edit suggestion ##
+        else if (m->get_sorted_margins()[i] < 1)  // recommend using a variable instead of 1
+        {
+          delete m;
+          break;
+        } 
+        // also include a catch in the case of the margin equalling DBL_MAX
+        else if (m->get_sorted_margins()[i] == DBL_MAX)
+        {
+          delete m;
+          break;
+        }
       }
     }
     else
