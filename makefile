@@ -9,7 +9,7 @@ HEADERS = Util.hpp Feature.hpp Model.hpp Feature_Selection.hpp
 default: classifier r_wrapper
 
 classifier: $(OBJECTS)
-	g++ $(CPPFLAGS) -o $@ $(OBJECTS)
+	g++ $(CPPFLAGS) -shared -o $@ $(OBJECTS)
 
 r_wrapper: $(SOBJECTS)
 	gcc -I $(R_DIR) -shared -o lib_$@.so $(SOBJECTS)
