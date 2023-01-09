@@ -65,6 +65,7 @@ list<Model*>* exhaustive_search(double** data, int* labels, int feature_no,
           break;
         }
         // end of edit
+        // NOTE: this isn't working, need to find an appropriate stage to delete these models
         else if (m->get_sorted_margins()[i] == thresholds[i])
         {
           continue;
