@@ -50,10 +50,6 @@ list<Model*>* exhaustive_search(double** data, int* labels, int feature_no,
       m->train();
       for (int i = 0; i < threshold_size; i++)
       {
-        if (m->get_sorted_margins()[i] == thresholds[i])
-        {
-          continue;
-        }
         // this may be a useful place to implement a lower limit for thresholds
         // if threshold < 1, delete the model (very small thresholds aren't useful as biomarkers)
         // ## DAVID edit suggestion ##
@@ -69,6 +65,10 @@ list<Model*>* exhaustive_search(double** data, int* labels, int feature_no,
           break;
         }
         // end of edit
+        else if (m->get_sorted_margins()[i] == thresholds[i])
+        {
+          continue;
+        }
         else if (m->get_sorted_margins()[i] > thresholds[i])
         {
           separators->push_back(m);
