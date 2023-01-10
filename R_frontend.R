@@ -15,9 +15,9 @@ exhaustive_search <- function(data, labels, depth, threshold, genes)
 }
 
 
-setwd("~")
+setwd("~/ROTc_data/Peroxide/")
 
-table <- read.delim("ROTc_data/Peroxide/RNAseq_and_tiling_preprocessed", stringsAsFactors = FALSE)
+table <- read.delim("RNAseq_and_tiling_preprocessed", stringsAsFactors = FALSE)
 data <- table[,3:ncol(table)]
 stress_pos <- which(data[nrow(data),] =="STRESS")
 data <- sapply(data[1:(nrow(data) - 1),], as.numeric)

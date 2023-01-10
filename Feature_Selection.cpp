@@ -45,15 +45,29 @@ list<Model*>* exhaustive_search(double** data, int* labels, int feature_no,
 
     Model* m = new Model(train, depth);
 
-    if (m->separating)
-    {
-      m->train();
-      for (int i = 0; i < threshold_size; i++)
-      {
-        // this may be a useful place to implement a lower limit for thresholds
-        // if threshold < 1, delete the model (very small thresholds aren't useful as biomarkers)
-        // ## DAVID edit suggestion ##
-        if (m->get_sorted_margins()[i] < 1)  // recommend using a variable instead of 1
+    if (m->separating)  // separating is a boolean variable evaluated in Model.cpp
+    { // (the -> operator works in the same way as a dot operator but is used for pointers to objects)
+      m->train();  // run the train method on m
+      for (int i = 0; i < threshold_size; i++)  // threshold_size = 1 for individuals, pairs
+      { // sorted_margins[0] should return the largest margin (highest neg point)
+        if (m->get_sorted_margins()[i] == thresholds[i])  // thresholds = [0] for individuals, pairs
+        { // if sorted_margins[0] == 0, for loop increments by 1
+          continue;
+        }
+        if (m->get_sorted_margins()[i] > thresholds[i])
+        { // if sorted_margins[0] > 0...
+          separators->push_back(m);  // append model to separators list
+          break;  // break out of for loop
+        }
+        else if (m->get_sorted_margins()[i] < thresholds[i])
+        { // if sorted_margins[0] < 0...
+          delete m;  // delete the model
+          break;  // break out of for loop
+        }
+        /* this may be a useful place to implement a lower limit for thresholds
+           if threshold < 1, delete the model (very small thresholds aren't useful as biomarkers)
+        ## DAVID edit suggestion ##
+        else if (m->get_sorted_margins()[i] < 1)  // recommend using a variable instead of 1
         {
           delete m;
           break;
@@ -64,28 +78,12 @@ list<Model*>* exhaustive_search(double** data, int* labels, int feature_no,
           delete m;
           break;
         }
-        // end of edit
-        // NOTE: this isn't working, need to find an appropriate stage to delete these models
-        else if (m->get_sorted_margins()[i] == thresholds[i])
-        {
-          continue;
-        }
-        else if (m->get_sorted_margins()[i] > thresholds[i])
-        {
-          separators->push_back(m);
-          break;
-        }
-        else if (m->get_sorted_margins()[i] < thresholds[i])
-        {
-          delete m;
-          break;
-        }
-        
+        */
       }
     }
     else
     {
-      delete m;
+      delete m;  // if separating is false, delete the model
     }
 
 
