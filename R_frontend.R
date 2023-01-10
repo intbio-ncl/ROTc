@@ -6,7 +6,7 @@ exhaustive_search <- function(data, labels, depth, threshold, genes)
   run_data <- as.matrix(data)
   run_depth <- as.integer(depth)
   run_labels <- as.integer(labels)
-  setwd("~")
+  setwd("~/ROTc")
   dyn.load("lib_r_wrapper.so")
   return_val <- .Call("search", run_data, run_labels, run_depth, threshold, as.integer(1))
   return_val[,1:depth] <- genes[return_val[,1:depth]]
@@ -15,9 +15,9 @@ exhaustive_search <- function(data, labels, depth, threshold, genes)
 }
 
 
-setwd("~")
+setwd(".")
 
-table <- read.delim("Data/RNAseq_and_tiling_preprocessed", stringsAsFactors = FALSE)
+table <- read.delim("RNAseq_and_tiling_preprocessed", stringsAsFactors = FALSE)
 data <- table[,3:ncol(table)]
 stress_pos <- which(data[nrow(data),] =="STRESS")
 data <- sapply(data[1:(nrow(data) - 1),], as.numeric)
