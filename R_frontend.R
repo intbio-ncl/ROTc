@@ -43,9 +43,13 @@ colnames(pairs) <- c("Gene 1", "Gene 2","Margin 1", "Margin 2", "Threshold 1", "
 write.table(pairs, "Results/pair_ranking.csv", sep="\t", row.names = FALSE)
 print(xtable(pairs[1:10,], type = "latex"), file = "Results/pairs.tex")
 
+<<<<<<< HEAD
 thresholds <- sort(as.numeric(pairs[1,c(3,4)]))[1:100]
 
 triples <- exhaustive_search(data, labels, 3, thresholds, genes)
+=======
+triples <- exhaustive_search(data, labels, 3, sort(as.numeric(pairs[1,c(3,4)])), genes)
+>>>>>>> parent of cd30141 (Update R_frontend.R)
 
 colnames(triples) <- c("Gene 1", "Gene 2", "Gene 3", 
                        "Margin 1", "Margin 2", "Margin 3", 
