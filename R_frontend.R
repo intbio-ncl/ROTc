@@ -43,7 +43,7 @@ colnames(pairs) <- c("Gene 1", "Gene 2","Margin 1", "Margin 2", "Threshold 1", "
 write.table(pairs, "Results/pair_ranking.csv", sep="\t", row.names = FALSE)
 print(xtable(pairs[1:10,], type = "latex"), file = "Results/pairs.tex")
 
-thresholds <- sort(as.numeric(pairs[1,c(3,4)]))[:100]
+thresholds <- sort(as.numeric(pairs[1,c(3,4)]))[1:100]
 
 triples <- exhaustive_search(data, labels, 3, thresholds, genes)
 
